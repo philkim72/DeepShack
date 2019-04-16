@@ -1,13 +1,17 @@
 import shutil
-from random import randint
-from time import sleep, time
+from time import time
 
 import requests
 from fake_useragent import UserAgent
 
 
-def download_img(url, filename, agent):
-    headers = {'user-agent': agent}
+def scrape_handler():
+    now = int(time())
+
+    url = f"http://cdn.shakeshack.com/camera.jpg?{now}"
+    filename = f"{now}.jpg"
+
+    headers = {'user-agent': UserAgent().random}
     r = requests.get(url, stream=True, headers=headers)
 
     if r.status_code == 200:
@@ -16,19 +20,3 @@ def download_img(url, filename, agent):
             shutil.copyfileobj(r.raw, f)
 
     return r.status_code
-
-
-def main():
-    ua = UserAgent()
-    while True:
-        sleep(randint(1, 5))
-        now = int(time())
-
-        url = f"http://cdn.shakeshack.com/camera.jpg?{now}"
-        filename = f"shakeshack/shackcam_{now}.jpg"
-
-        print(download_img(url, filename, ua.random))
-
-
-if __name__ == '__main__':
-    main()
