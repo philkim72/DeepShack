@@ -27,8 +27,8 @@ def load_image(filepath, new_shape):
 def load_gaussian_image(img_annots, org_shape, new_shape):
     kernel_size = 15
 
-    x_scaler = new_shape[0] / org_shape[0]
-    y_scaler = new_shape[1] / org_shape[1]
+    y_scaler = new_shape[0]/org_shape[0]
+    x_scaler = new_shape[1]/org_shape[1]
     img = np.zeros(new_shape)
 
     for x, y in img_annots:
@@ -37,7 +37,7 @@ def load_gaussian_image(img_annots, org_shape, new_shape):
 
         # Discard bad annotation
         if (x_scaled < new_shape[0]) and (y_scaled < new_shape[1]):
-            img[y_scaled,  x_scaled] += 1
+            img[y_scaled, x_scaled] = 1
 
     img = cv2.GaussianBlur(src=img, ksize=(kernel_size, kernel_size), sigmaX=0)
     return img
