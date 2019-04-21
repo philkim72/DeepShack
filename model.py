@@ -44,5 +44,5 @@ def MSCNN(input_shape):
 
     model = Model(inputs=inputs, outputs=outputs)
 
-    plot_model(model, to_file='images/mscnn.png', show_shapes=True)
+    plot_model(model, to_file='mscnn.png', show_shapes=True)
     return model
