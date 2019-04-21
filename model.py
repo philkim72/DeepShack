@@ -1,12 +1,14 @@
 from tensorflow.keras.layers import (Activation, BatchNormalization, Conv2D,
                                      Input, MaxPooling2D, concatenate)
 from tensorflow.keras.models import Model
+from tensorflow.keras.regularizers import l2
 from tensorflow.keras.utils import plot_model
 
 
 def MSB(filters):
     def func(inputs, bn=False):
-        params = {'activation': 'relu', 'padding': 'same'}
+        params = {'activation': 'relu', 'padding': 'same',
+                  'kernel_regularizer': l2(5e-4)}
         outputs = concatenate([Conv2D(filters, 9, **params)(inputs),
                                Conv2D(filters, 7, **params)(inputs),
                                Conv2D(filters, 5, **params)(inputs),
@@ -39,7 +41,8 @@ def MSCNN(input_shape):
     outputs = MSB(3 * 64)(outputs)
 
     # Density Map Regression
-    outputs = Conv2D(filters=1000, kernel_size=1, activation='relu')(outputs)
+    outputs = Conv2D(filters=1000, kernel_size=1, activation='relu',
+                     kernel_regularizer=l2(5e-4))(outputs)
     outputs = Conv2D(filters=1, kernel_size=1, activation='relu')(outputs)
 
     model = Model(inputs=inputs, outputs=outputs)
