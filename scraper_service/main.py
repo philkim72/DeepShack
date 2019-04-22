@@ -1,15 +1,18 @@
 import shutil
 from time import time
+from datetime import datetime
 
 import requests
 from fake_useragent import UserAgent
 
 
 def scrape_handler():
-    now = int(time())
+   
+    timestamp = datetime.now()
+    timestamp_str = timestamp.strftime("%Y-%m-%d_%H%M-%S")
 
-    url = f"http://cdn.shakeshack.com/camera.jpg?{now}"
-    filename = f"{now}.jpg"
+    url = f"http://cdn.shakeshack.com/camera.jpg"
+    filename = f"{timestamp_str}.jpg"
 
     headers = {'user-agent': UserAgent().random}
     r = requests.get(url, stream=True, headers=headers)
