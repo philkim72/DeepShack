@@ -69,8 +69,7 @@ class ImageLoader(object):
             self.data[fn] = {'org_img': org_img,
                              'gaussian_img': gaussian_img,
                              'org_annots': org_annots,
-                             'scaled_annots': scaled_annots,
-                             'annot_count': len(org_annots)}
+                             'scaled_annots': scaled_annots}
 
     def plot_image(self, i=None, filename=None):
         """
