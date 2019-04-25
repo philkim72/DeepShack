@@ -77,7 +77,7 @@ class ImageLoader(object):
         Plot an image and annotated image side by side.
         Either pass i or filename
         """
-        if i:
+        if isinstance(i, int):
             _, item = list(self.data.items())[i]
         elif filename:
             item = self.data[filename]
