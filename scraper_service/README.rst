@@ -1,2 +1,2 @@
-DeepShack
+README.rst
 ===========
