@@ -118,3 +118,57 @@ class ImageLoader(object):
     @property
     def count(self):
         return len(self.data)
+
+
+class ShackCamLoader(ImageLoader):
+    def __init__(self, image_dir=None, new_shape=224, gaussian_ksize=15):
+        ImageLoader.__init__(self, image_dir, new_shape, gaussian_ksize)
+
+        gaussian_shape = self.new_shape[0]//self.c, self.new_shape[1]//self.c
+        mask = cv2.imread(f"{self.image_dir}/line_mask.png", 0) // 255
+        mask = cv2.resize(mask, gaussian_shape)
+        self.mask = (mask == 0)
+
+    def mask_img(self, img):
+        img = img.copy()
+        img[self.mask] = 0
+        return img
+
+    @property
+    def masked_gaussian_img(self):
+        imgs = [self.mask_img(v['gaussian_img']) for v in self.data.values()]
+        return np.array(imgs)
+
+    def plot_image(self, i=None, filename=None):
+        """
+        Plot an image and annotated image side by side.
+        Either pass i or filename
+        """
+        if isinstance(i, int):
+            _, item = list(self.data.items())[i]
+        elif filename:
+            item = self.data[filename]
+        else:
+            raise ValueError('Pass either index or filename')
+
+        org_img = item['org_img']
+        gaussian_img = item['gaussian_img']
+        scaled_annots = item['scaled_annots']
+
+        figs, axes = plt.subplots(1, 4, figsize=(20, 5))
+
+        # Original image
+        axes[0].imshow(org_img)
+
+        # Annotation
+        img_array = (org_img*255).astype('uint8')
+        img = Image.fromarray(img_array)
+        draw = ImageDraw.Draw(img)
+        for scaled_x, scaled_y in scaled_annots:
+            draw.text((scaled_x*self.c, scaled_y*self.c), "X", fill="red")
+        axes[1].imshow(img)
+
+        # Gaussian image, converting from 3D to 2D
+        axes[2].imshow(gaussian_img[:, :, 0])
+
+        axes[3].imshow(self.mask_img(gaussian_img[:, :, 0]))
