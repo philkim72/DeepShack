@@ -117,7 +117,7 @@ class ImageLoader(object):
 
     @property
     def count(self):
-        return len(self.data)
+        return [len(v) for v in self.annots.values()]
 
 
 class ShackCamLoader(ImageLoader):
