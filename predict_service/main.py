@@ -8,9 +8,10 @@ import cv2
 from tensorflow.python.keras.models import load_model
 
 
-S3_BUCKET = 'seandaptest'
-MSCNN_MODEL_PATH = 'mall_final.h5'
-FC_MODEL_PATH = 'shackcam_fc_final.h5'
+S3_BUCKET = 'deepshack'
+MSCNN_MODEL_PATH = 'model/shackcam_final.h5'
+FC_MODEL_PATH = 'model/shackcam_fc_final.h5'
+MASK_PATH = 'train/data/shackcam/line_mask.png'
 
 
 def predict_handler(event, context):
@@ -29,17 +30,16 @@ def predict_handler(event, context):
     return {'statusCode': 200, 'body': json.dumps(message)}
 
 
-def load_s3_object(key, func):
+def load_s3_object(key, func, **kwargs):
     # Load S3 object as byte string
-    s3 = boto3.resource('s3')
-    bucket = s3.Bucket(S3_BUCKET)
-    obj = bucket.Object(key)
-    bytestr = obj.get()['Body'].read()
+    s3 = boto3.client('s3')
+    obj = s3.get_object(Bucket=S3_BUCKET, Key=key)
+    bytestr = obj['Body'].read()
 
     # Create a temp file and read it with the supplied function
     with tempfile.NamedTemporaryFile() as tmp:
         tmp.write(bytestr)
-        data = func(tmp.name)
+        data = func(tmp.name, **kwargs)
 
     return data
 
@@ -52,10 +52,26 @@ def transform_image(img, new_shape):
     return img
 
 
+def mask_image(img):
+    img = img[0, :, :, 0].copy()  # 4D to 2D
+    new_shape = img.shape[0:2]
+
+    mask = load_s3_object(MASK_PATH, cv2.imread, flags=0)
+    mask = cv2.resize(mask, new_shape) // 255
+    mask = (mask == 0)
+    img[mask] = 0
+
+    img = np.expand_dims(img, axis=0)  # (40, 40) to (1, 40, 40)
+    img = np.expand_dims(img, axis=-1)  # (1, 40, 40) to (1, 40, 40, 1)
+
+    return img
+
+
 def predict(filename):
     img = load_s3_object(filename, cv2.imread)
     gaussian = predict_mscnn(img)
-    count = predict_fc(gaussian)
+    masked = mask_image(gaussian)
+    count = predict_fc(masked)
     return int(round(count))
 
 
