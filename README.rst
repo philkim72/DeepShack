@@ -1,6 +1,6 @@
-.. image:: images/Shake-Shack.png
-   :scale: 50%
-   :align: center
+.. image:: images/Deep-Shack.png
+	:scale: 50%
+	:align: center
 
 ================
 DeepShack
