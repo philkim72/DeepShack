@@ -1,5 +1,7 @@
 .. image:: images/Deep-Shack.png
-   :width: 200
+   :height: 100px
+   :width: 200 px
+   :scale: 50 %
    :align: center
 
 ================
@@ -16,7 +18,7 @@ Description
 Shake Shack is lunchtime (and dinnertime) favorite for people in Manhattan.  The original location was opened in July 2004 in Madison Square Park.  Its popularity is such that in the summer the wait in line for service can stretch to over an hour, especially on weekends when the weather is pleasant. A webcam on the restaurant's web page shows the current line in real time in order to inform customers of the length of the line.
 
 .. image:: images/shakeshack-1500848940.jpg
-   :width: 200
+   :width: 200 px
    :align: center
 
 
@@ -32,7 +34,7 @@ MVP Architecture
 
 
 .. image:: images/MVP_Architecture.png
-   :width: 200
+   :width: 200 px
    :align: center
 
 There are 3 services which will be implemented on AWS Lamba. This design decouples each service and allows for a serverless architecture.
