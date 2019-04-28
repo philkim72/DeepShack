@@ -71,17 +71,14 @@ Execute the packaging script to create zip file:
     zip -r my-Python36-Pandas23.zip .
 
 
-Once you have created a zipfile with the fake_useragent library, upload it to your Lambda function with the UI as follows:
-
-TODO: SCREENSHOT
+Once you have created a zipfile with the fake_useragent library, upload it to your Lambda function with the UI.
 
 
 3. Amazon S3
 -----------------
 
-We chose Amazon S3 to store scraped images. After setting up an S3 bucket, we needed to grant our scraper service "full access" to the S3 bucket. This enables the service to write to S3. Access to S3 can be granted through Amazon's IAM UI, shown below:
+We chose Amazon S3 to store scraped images. After setting up an S3 bucket, we needed to grant our scraper service "full access" to the S3 bucket. This enables the service to write to S3. Access to S3 can be granted through Amazon's IAM UI.
 
-TODO: SCREENSHOT
 
 
 
@@ -95,9 +92,7 @@ The scraper service does not require any inputs, so it can be triggered at any t
 a. On a Schedule 
 -----------------
 
-AWS Cloudwatch provides a mechanism to schedule the execution of AWS Lambda functions. As shown below, we scheduled the service to run every 30 minutes:
-
-TODO: SCREENSHOT
+AWS Cloudwatch provides a mechanism to schedule the execution of AWS Lambda functions. We scheduled the service to run every 30 minutes.
 
 
 b. *Ad hoc* 
@@ -111,7 +106,7 @@ In a subsequent iteration, we will use another service (check_line) to make an A
 Deployment
 =============
 
-Add additional notes about how to deploy this on a live system
+The scraper service is manually deployed from Github (used for version control and managing codebase). We will set up continuous integration in a subsequent version.
 
 
 
@@ -123,11 +118,4 @@ Built With
 - `S3 <https://aws.amazon.com/s3/getting-started/>`_ - File management
 
 
-
-Acknowledgments
-================
-
-- Hat tip to anyone whose code was used
-- Inspiration
-- etc
 
