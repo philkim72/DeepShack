@@ -3,7 +3,7 @@
 </p>
 
 .. image:: images/Shake-Shack.png
-	:scale: 50
+   :scale: 50
 
 ================
 DeepShack
@@ -23,7 +23,7 @@ Shake Shack is lunchtime (and dinnertime) favorite for people in Manhattan.  The
 </p>
 
 .. image:: images/shakeshack-1500848940.jpg
-	:width: 400
+   :width: 400
 
 
 So to ease the decision making process on whether to visit shake shack at any given time of the day, our service aims to notify subscribers of the number of people in line at the Madison Square Park location though Deep Learning.  Either through an SMS or email, the service aims to notify the subscriber of the number of people waiting in line.   
@@ -40,8 +40,8 @@ MVP Architecture
 <img src="/images/MVP Architecture.png" width="700">
 </p>
 
-.. image:: images/MVP Architecture.png
-	:width: 700
+.. image:: images/MVP_Architecture.png
+   :width: 700
 
 Roadmap
 =======
