@@ -36,9 +36,10 @@ MVP Architecture
    :align: center
 
 There are 3 services which will be implemented on AWS Lamba. This design decouples each service and allows for a serverless architecture.
-* Scraper Service will send a GET request to the ShackCam and save the image onto an AWS S3 bucket, which creates an event.
-* Predict Service will listen to the event and load the model from AWS S3.  It will estimate the actual crowd count using the trained model, then publish a message to AWS SNS (Simple Notification Service).  Using the annotated ShackCam image set, we will fine tune the model utilizing transfer learning method and save the model on S3, which will be used by the Service.
-* Email/SMS Service will subscribe to the message and send an email or text with the predicted count.
+
+- Scraper Service will send a GET request to the ShackCam and save the image onto an AWS S3 bucket, which creates an event.
+- Predict Service will listen to the event and load the model from AWS S3.  It will estimate the actual crowd count using the trained model, then publish a message to AWS SNS (Simple Notification Service).  Using the annotated ShackCam image set, we will fine tune the model utilizing transfer learning method and save the model on S3, which will be used by the Service.
+- Email/SMS Service will subscribe to the message and send an email or text with the predicted count.
 
 
 Roadmap
