@@ -46,15 +46,15 @@ There are 3 services which will be implemented on AWS Lamba. This design decoupl
 Project Requirements
 ====================
 * The Service Architecture will satisfy the following requirements.
-- More than one service - We will have a total of 4 services.
-- Inter-service communication - We will use AWS SNS (Sub/Pub Messaging Service) to communicate between Predict and Email/SMS services.
-- We will use github to manage and merge the code base.
-- We will use JIRA to manage tasks.
-- We will use Standups and Retrospectives in order to seek transparency and open collaboration in an effort to discover bottlenecks, resolve issues, focus on flow and continuously improve our process.
+	- More than one service - We will have a total of 4 services.
+	- Inter-service communication - We will use AWS SNS (Sub/Pub Messaging Service) to communicate between Predict and Email/SMS services.
+	- We will use github to manage and merge the code base.
+	- We will use JIRA to manage tasks.
+	- We will use Standups and Retrospectives in order to seek transparency and open collaboration in an effort to discover bottlenecks, resolve issues, focus on flow and continuously improve our process.
 *The Service Architecture will contain the following additional features.
-- Train and Use a Model
-- Present Data (Email/SMS)
-- Event Driven Service
+	- Train and Use a Model
+	- Present Data (Email/SMS)
+	- Event Driven Service
 
 
 Authors and acknowledgment
