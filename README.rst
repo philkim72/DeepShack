@@ -23,7 +23,7 @@ Shake Shack is lunchtime (and dinnertime) favorite for people in Manhattan.  The
 </p>
 
 .. image:: images/shakeshack-1500848940.jpg
-	:scale: 50
+	:width: 400
 
 
 So to ease the decision making process on whether to visit shake shack at any given time of the day, our service aims to notify subscribers of the number of people in line at the Madison Square Park location though Deep Learning.  Either through an SMS or email, the service aims to notify the subscriber of the number of people waiting in line.   
@@ -41,6 +41,7 @@ MVP Architecture
 </p>
 
 .. image:: images/MVP Architecture.png
+	:width: 700
 
 Roadmap
 =======
