@@ -24,6 +24,14 @@ There are two main use cases or the service:
 - An email is sent at a user-determined scheduled time(s) during the day with a count of the number people in line.
 - A user sends a SMS message to the service, and will receive a count of the number of people in line.
 
+#### MVP Architecture
+
+<p align="center">
+
+<img src="/images/MVP Architecture.png" width="700">
+
+</p>
+
 #### Roadmap
 
 Future releases may include the following.
