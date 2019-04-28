@@ -1,6 +1,3 @@
-DeepShack
-===========
-
 # DeepShack
 Looking for the best time to visit Shake Shack with the help of Deep Learning!
 
