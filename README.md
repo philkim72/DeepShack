@@ -1,6 +1,6 @@
 <p align="center">
 
-<img src="/images/Shake-Shack Resized.png" width="600">
+<img src="/images/Shake-Shack.png" width="600">
 
 </p>
 
