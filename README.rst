@@ -1,9 +1,5 @@
-<p align="center">
-<img src="/images/Shake-Shack.png" width="600">
-</p>
-
 .. image:: images/Shake-Shack.png
-   :scale: 50
+   :width: 300
 
 ================
 DeepShack
@@ -17,10 +13,6 @@ Description
 
 
 Shake Shack is lunchtime (and dinnertime) favorite for people in Manhattan.  The original location was opened in July 2004 in Madison Square Park.  Its popularity is such that in the summer the wait in line for service can stretch to over an hour, especially on weekends when the weather is pleasant. A webcam on the restaurant's web page shows the current line in real time in order to inform customers of the length of the line.
-
-<p align="center">
-<img src="/images/shakeshack-1500848940.jpg" width="400">
-</p>
 
 .. image:: images/shakeshack-1500848940.jpg
    :width: 400
@@ -36,9 +28,6 @@ There are two main use cases or the service:
 MVP Architecture
 ================
 
-<p align="center">
-<img src="/images/MVP Architecture.png" width="700">
-</p>
 
 .. image:: images/MVP_Architecture.png
    :width: 700
