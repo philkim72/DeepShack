@@ -4,6 +4,9 @@
 
 </p>
 
+.. image:: images/Shake-Shack.png
+
+
 ================
 DeepShack
 ================
