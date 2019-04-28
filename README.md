@@ -9,7 +9,7 @@ Shake Shack is lunchtime (and dinnertime) favorite for people in Manhattan.  The
 
 <p align="center">
 
-<img src="shakeshack-1500848940.jpg" width="400">
+<img src="/images/shakeshack-1500848940.jpg" width="400">
 
 </p>
 
