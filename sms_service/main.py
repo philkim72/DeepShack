@@ -1,5 +1,6 @@
 import json
 import boto3
+import os
 
 # Initialize SNS client for Ireland region
 session = boto3.Session(
@@ -15,7 +16,7 @@ def lambda_handler(event, context):
 
     # Send SMS
     response = sns_client.publish(
-        PhoneNumber="+1##########",
+        PhoneNumber=os.environ['ivan_number'],
         Message='There are only '+str(pred)+' people in the line',
         MessageAttributes={
             'AWS.SNS.SMS.SenderID': {
