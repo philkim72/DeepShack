@@ -1,4 +1,8 @@
-![Screen%20Shot%202019-04-14%20at%204.56.18%20PM.png](attachment:Screen%20Shot%202019-04-14%20at%204.56.18%20PM.png)
+<p align="center">
+
+<img src="/images/Shake-Shack.png" width="600">
+
+</p>
 
 # DeepShack
 Looking for the best time to visit Shake Shack with the help of Deep Learning!
