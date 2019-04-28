@@ -28,7 +28,7 @@ There are two main use cases or the service:
 
 <p align="center">
 
-<img src="/images/MVP Architecture.png" width="800">
+<img src="/images/MVP Architecture.png" width="700">
 
 </p>
 
