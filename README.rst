@@ -51,7 +51,7 @@ Project Requirements
 	- We will use github to manage and merge the code base.
 	- We will use JIRA to manage tasks.
 	- We will use Standups and Retrospectives in order to seek transparency and open collaboration in an effort to discover bottlenecks, resolve issues, focus on flow and continuously improve our process.
-*The Service Architecture will contain the following additional features.
+* The Service Architecture will contain the following additional features.
 	- Train and Use a Model
 	- Present Data (Email/SMS)
 	- Event Driven Service
