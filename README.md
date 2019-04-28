@@ -1,3 +1,5 @@
+![Screen%20Shot%202019-04-14%20at%204.56.18%20PM.png](attachment:Screen%20Shot%202019-04-14%20at%204.56.18%20PM.png)
+
 # DeepShack
 Looking for the best time to visit Shake Shack with the help of Deep Learning!
 
@@ -5,8 +7,7 @@ Looking for the best time to visit Shake Shack with the help of Deep Learning!
 
 Shake Shack is lunchtime (and dinnertime) favorite for people in Manhattan.  The original location was opened in July 2004 in Madison Square Park.  Its popularity is such that in the summer the wait in line for service can stretch to over an hour, especially on weekends when the weather is pleasant. A webcam on the restaurant's web page shows the current line in real time in order to inform customers of the length of the line.
 
-![alt text][shackcam_image]
-[shackcam_image]: imagename "shackcam_image Title Text 2"
+![ShackCam Image](shakeshack-1500848940.jpg)
 
 So to ease the decision making process on whether to visit shake shack at any given time of the day, our service aims to notify subscribers of the number of people in line at the Madison Square Park location though Deep Learning.  Either through an SMS or email, the service aims to notify the subscriber of the number of people waiting in line.   
 
@@ -28,5 +29,7 @@ Future releases may include the following.
 Team Members:
 E.K. Itoku (iitoku2), Oscar Jasklowski (ovj2101), Phillip Kim (ppk2003), Ivan Ugalde(du2160), Sean Xu (cx2118)
 
-Special thanks to Dmitri (Dimroc) for inspiring the machine learning piece and sharing annotated images for training data set.  https://blog.dimroc.com/2017/11/19/counting-crowds-and-lines
+Special thanks to Dmitri (Dimroc) for inspiring the machine learning piece and sharing annotated images for training data set.  
+
+https://blog.dimroc.com/2017/11/19/counting-crowds-and-lines
 
