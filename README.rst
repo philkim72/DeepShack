@@ -20,7 +20,7 @@ Shake Shack is lunchtime (and dinnertime) favorite for people in Manhattan.  The
    :align: center
 
 
-So to ease the decision making process on whether to visit shake shack at any given time of the day, our service aims to notify subscribers of the number of people in line at the Madison Square Park location though Deep Learning.  Either through an SMS or email, the service aims to notify the subscriber of the number of people waiting in line.   
+So to ease the decision making process on whether to visit Shake Shack at any given time of the day, our service aims to notify subscribers of the number of people in line at the Madison Square Park location though Deep Learning.  Either through an SMS or email, the service aims to notify the subscriber of the number of people waiting in line.   
 
 There are two main use cases or the service:
 
