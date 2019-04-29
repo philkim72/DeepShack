@@ -1,6 +1,8 @@
 .. image:: images/Deep-Shack.png
-	:scale: 50%
-	:align: center
+   :height: 100px
+   :width: 200 px
+   :scale: 50 %
+   :align: center
 
 ================
 DeepShack
@@ -16,11 +18,11 @@ Description
 Shake Shack is lunchtime (and dinnertime) favorite for people in Manhattan.  The original location was opened in July 2004 in Madison Square Park.  Its popularity is such that in the summer the wait in line for service can stretch to over an hour, especially on weekends when the weather is pleasant. A webcam on the restaurant's web page shows the current line in real time in order to inform customers of the length of the line.
 
 .. image:: images/shakeshack-1500848940.jpg
-   :scale: 50%
+   :width: 200 px
    :align: center
 
 
-So to ease the decision making process on whether to visit Shake Shack at any given time of the day, our service aims to notify subscribers of the number of people in line at the Madison Square Park location though Deep Learning.  Either through an SMS or email, the service aims to notify the subscriber of the number of people waiting in line.   
+So to ease the decision making process on whether to visit Shake Shack at any given time of the day, our service aims to notify subscribers of the number of people in line at the Madison Square Park location though Deep Learning.  Either through an SMS or email, the service aims to notify the subscriber of the number of people waiting in line.
 
 There are two main use cases or the service:
 
@@ -32,7 +34,7 @@ MVP Architecture
 
 
 .. image:: images/MVP_Architecture.png
-   :scale: 50%
+   :width: 200 px
    :align: center
 
 There are 3 services which will be implemented on AWS Lamba. This design decouples each service and allows for a serverless architecture.
@@ -61,8 +63,8 @@ Authors and acknowledgment
 ==========================
 
 Team Members:
-E.K. Itoku (iitoku2), Oscar Jasklowski (ovj2101), Phillip Kim (ppk2003), Ivan Ugalde(du2160), Sean Xu (cx2118)
+E.K. Itoku (ii2155), Oscar Jasklowski (ovj2101), Phillip Kim (ppk2003), Ivan Ugalde(du2160), Sean Xu (cx2118)
 
-Special thanks to Dmitri (Dimroc) for inspiring the machine learning piece and sharing annotated images for training data set.  
+Special thanks to Dmitri (Dimroc) for inspiring the machine learning piece and sharing annotated images for training data set.
 
 https://blog.dimroc.com/2017/11/19/counting-crowds-and-lines

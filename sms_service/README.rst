@@ -1,8 +1,8 @@
-=============
-email_service
-=============
-This function will read the messages sent from the predict_service and send an
-email to the address stored in the environment variable `gmail_username`.
+============
+sms_service
+============
+This function will read the messages sent from the predict_service and send a
+SMS message to the number stored in the environment variable `ivan_number`.
 
 ***************
 Dependencies
@@ -12,7 +12,6 @@ This function depends on the following packages:
 - json
 - os
 - boto3
-- smtplib
 
 ***************
 Execution
@@ -21,16 +20,16 @@ AWS services provides the functionality to trigger notifications to different se
 
 Upon execution, this function follows these steps:
 
-1. Creates a SMTP protocol client
+1. Creates a boto3 session for a specific (geographical) region
 
-2. Logs in using **gmail_username** and **gmail_username** environment variables
+2. With that section, it then creates a client for SNS
 
-3. Send email
+3. Finally, it uses the client to publish the SMS message
 
 Example
 ^^^^^^^^^^^^^^^^^^
 
-- **predict_service** will publish a message similar to this:
+- predict_service will publish a message similar to this:
 
 .. code-block:: JSON
 
@@ -61,9 +60,10 @@ Example
   }
 
 - sms_service will read **predict** and **filename** from there
-- It will send an email to the address stored in the environment variable **gmail_username**
+- It will send a SMS to the number stored in the environment variable **ivan_number** saying
+    "There are only 6 people in the line"
 
 Improvements for future sprints
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-- Create logic to filter when messages sent to email addresses
-- Send emails only to a list of subscribers as opposed to a single address
+- Create logic to filter when messages sent to SMS
+- Send SMS to a list of subscribers as opposed to a single number
