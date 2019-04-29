@@ -33,7 +33,7 @@ MVP Architecture
 ================
 
 
-.. image:: images/MVP_Architecture.png
+.. image:: images/Architecture.png
    :width: 200 px
    :align: center
 
