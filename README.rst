@@ -46,4 +46,4 @@ ii.  AWS Simple Notification Service (SNS) -- message queue between microservice
 iii. AWS S3 -- Raw data storage for images and models
 iv. AWS CloudWatch -- event scheduler
 
-Special thanks to `Dmitri <https://github.com/dimroc/count/tree/master/ml/data/annotations>` for inspiring the machine learning piece and sharing annotated images for training data set.
+Special thanks to `Dmitri <https://github.com/dimroc/count/tree/master/ml/data/annotations>`_ for inspiring the machine learning piece and sharing annotated images for training data set.
