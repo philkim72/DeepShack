@@ -1,4 +1,4 @@
-<p align="center"><img src="images/Deep-Shack.png" width="600" align="center"/></>
+<img src="images/Deep-Shack.png" width="600" align="center"/>
 
 ### Visit Shake Shack with the help of Deep Learning!
 
@@ -9,7 +9,7 @@ Description
 
 Shake Shack is lunchtime (and dinnertime) favorite for people in Manhattan.  The original location was opened in July 2004 in Madison Square Park.  Its popularity is such that in the summer the wait in line for service can stretch to over an hour, especially on weekends when the weather is pleasant. A webcam on the restaurant's web page shows the current line in real time in order to inform customers of the length of the line.
 
-<p align="center"><img src="images/shakeshack-1500848940.jpg" width="300"></>
+<img src="images/shakeshack-1500848940.jpg" width="300">
 
 So to ease the decision making process on whether to visit Shake Shack at any given time of the day, our service aims to notify subscribers of the number of people in line at the Madison Square Park location though Deep Learning.  Either through an SMS or email, the service aims to notify the subscriber of the number of people waiting in line.
 
