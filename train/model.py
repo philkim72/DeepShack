@@ -100,7 +100,7 @@ class MultiScaleCNN(BaseModel):
         # Density Map Regression
         outputs = Conv2D(filters=1000, kernel_size=1, activation='relu',
                          kernel_regularizer=l2(5e-4))(outputs)
-        outputs = Conv2D(filters=1, kernel_size=1, activation='relu')(outputs)
+        outputs = Conv2D(filters=1, kernel_size=1, activation='linear')(outputs)
 
         model = Model(inputs=inputs, outputs=outputs)
         return model

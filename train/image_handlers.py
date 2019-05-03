@@ -105,11 +105,13 @@ class ImageLoader(object):
 
     @property
     def org_img(self):
-        return np.array([v['org_img'] for v in self.data.values()])
+        vec = [v['org_img'] for v in self.annots.values()]
+        return np.array(vec).astype(np.float32)
 
     @property
     def gaussian_img(self):
-        return np.array([v['gaussian_img'] for v in self.data.values()])
+        vec = [v['gaussian_img'] for v in self.annots.values()]
+        return np.array(vec).astype(np.float32)
 
     @property
     def files(self):
@@ -117,14 +119,15 @@ class ImageLoader(object):
 
     @property
     def count(self):
-        return [len(v) for v in self.annots.values()]
+        vec = [len(v) for v in self.annots.values()]
+        return np.array(vec).astype(np.float32)
 
 
 class ShackCamLoader(ImageLoader):
     def __init__(self, image_dir=None, new_shape=224, gaussian_ksize=15):
         ImageLoader.__init__(self, image_dir, new_shape, gaussian_ksize)
 
-        gaussian_shape = self.new_shape[0]//self.c, self.new_shape[1]//self.c
+        gaussian_shape = (self.new_shape[0]//self.c, self.new_shape[1]//self.c)
         mask = cv2.imread(f"{self.image_dir}/line_mask.png", 0) // 255
         mask = cv2.resize(mask, gaussian_shape)
         self.mask = (mask == 0)
