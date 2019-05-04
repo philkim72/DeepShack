@@ -44,7 +44,7 @@ To run Jupyter notebook with Docker
 ============================
 You could run Jupyter Notebook with Docker, which comes with Python3.5 and TensorFlow. Update ``requirements.txt`` if you want to add Python packages.
 
-.. code-block::
+.. code:: python
    docker build --tag=deepshack .
    docker run -it --rm -v $(pwd):/tf/DeepShack -p 9999:9999 deepshack
    http://localhost:9999
