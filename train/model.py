@@ -43,7 +43,7 @@ class BaseModel(metaclass=abc.ABCMeta):
         mc = ModelCheckpoint(fn_base + '.h5', save_best_only=True, mode='min')
         self.model.fit(x_train, y_train, epochs=epochs, batch_size=batch_size,
                        validation_split=0.1, verbose=1, callbacks=[mc])
-        self.model.save(fn_base + '_final.h5')
+        self.model.save(fn_base + '.h5')
 
         df = pd.DataFrame.from_dict(self.model.history.history)
         df.to_csv(fn_base + '_history.csv', index=False)

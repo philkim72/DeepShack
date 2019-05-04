@@ -105,12 +105,12 @@ class ImageLoader(object):
 
     @property
     def org_img(self):
-        vec = [v['org_img'] for v in self.annots.values()]
+        vec = [v['org_img'] for v in self.data.values()]
         return np.array(vec).astype(np.float32)
 
     @property
     def gaussian_img(self):
-        vec = [v['gaussian_img'] for v in self.annots.values()]
+        vec = [v['gaussian_img'] for v in self.data.values()]
         return np.array(vec).astype(np.float32)
 
     @property
@@ -121,6 +121,9 @@ class ImageLoader(object):
     def count(self):
         vec = [len(v) for v in self.annots.values()]
         return np.array(vec).astype(np.float32)
+
+    def __repr__(self):
+        pass
 
 
 class ShackCamLoader(ImageLoader):
