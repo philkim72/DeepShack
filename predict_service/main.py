@@ -9,8 +9,7 @@ from tensorflow.python.keras.models import load_model
 
 
 S3_BUCKET = 'deepshack'
-MSCNN_MODEL_PATH = 'model/shackcam_final.h5'
-FC_MODEL_PATH = 'model/shackcam_fc_final.h5'
+MODEL_PATH = 'model/vgg16_shackcam.h5'
 MASK_PATH = 'train/data/shackcam/line_mask.png'
 
 
@@ -44,47 +43,28 @@ def load_s3_object(key, func, **kwargs):
     return data
 
 
-def transform_image(img, new_shape):
-    """Crop, resize, mean normalize, and change from 3D to 4D"""
-    img = img[0:720, 0:720]
-    img = cv2.resize(img, (new_shape, new_shape)) / 255
-    img = np.expand_dims(img, axis=0)  # 3D to 4D
-    return img
+def load_masked_image(filename, new_shape):
+    # Load image
+    img = load_s3_object(filename, cv2.imread)
+    img = cv2.resize(img, new_shape) / 255
 
-
-def mask_image(img):
-    img = img[0, :, :, 0].copy()  # 4D to 2D
-    new_shape = img.shape[0:2]
-
+    # Load mask
     mask = load_s3_object(MASK_PATH, cv2.imread, flags=0)
     mask = cv2.resize(mask, new_shape) // 255
     mask = (mask == 0)
+
+    # Apply mask
     img[mask] = 0
 
-    img = np.expand_dims(img, axis=0)  # (40, 40) to (1, 40, 40)
-    img = np.expand_dims(img, axis=-1)  # (1, 40, 40) to (1, 40, 40, 1)
-
+    # Change shape from (120, 120, 3) to (1, 120, 120, 3)
+    img = np.expand_dims(img, axis=0)
     return img
 
 
 def predict(filename):
-    img = load_s3_object(filename, cv2.imread)
-    gaussian = predict_mscnn(img)
-    masked = mask_image(gaussian)
-    count = predict_fc(masked)
-    return int(round(count))
+    model = load_s3_object(MODEL_PATH, load_model)
+    new_shape = model.input_shape[1:3]  # (120, 120) for example
+    masked_image = load_masked_image(filename, new_shape)
 
-
-def predict_mscnn(img):
-    model = load_s3_object(MSCNN_MODEL_PATH, load_model)
-    new_shape = model.input_shape[1]
-
-    img_4d = transform_image(img, new_shape)
-    pred_4d = model.predict(img_4d)
-    return pred_4d
-
-
-def predict_fc(img):
-    model = load_s3_object(FC_MODEL_PATH, load_model)
-    pred = model.predict(img)
+    pred = model.predict(masked_image)
     return pred[0][0]
