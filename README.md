@@ -2,7 +2,7 @@
 <img src="images/Deep-Shack.png" width="600">
 </p>
 
-## Visit Shake Shack with the help of Deep Learning!
+*Visit Shake Shack with the help of Deep Learning!*
 
 
 ## Description
