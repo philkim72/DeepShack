@@ -43,6 +43,8 @@ def scrape_handler(event, context):
             sleep(1)
             pass
     
+    # TODO: Create new SNS topic between scraper (this service) and predict lambda
+    
     # Upload image to S3 
     if fail_count >= 2:
         # If shack cam is failing, just send an old image to S3
