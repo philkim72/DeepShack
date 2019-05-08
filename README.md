@@ -5,7 +5,7 @@
 ## Visit Shake Shack with the help of Deep Learning!
 
 
-#### Description
+## Description
 
 
 Shake Shack is lunchtime (and dinnertime) favorite for people in Manhattan.  The original location was opened in July 2004 in Madison Square Park.  Its popularity is such that in the summer the wait in line for service can stretch to over an hour, especially on weekends when the weather is pleasant. A webcam on the restaurant's web page shows the current line in real time in order to inform customers of the length of the line.
@@ -21,7 +21,7 @@ There are two main use cases or the service:
 - An email is sent at a user-determined scheduled time(s) during the day with a count of the number people in line.
 - A user sends a SMS message to the service, and will receive a count of the number of people in line.
 
-#### Microservice Architecture
+## Microservice Architecture
 
 <p align="center">
 <img src="images/Architecture.png" width="700">
