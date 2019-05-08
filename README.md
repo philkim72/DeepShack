@@ -3,7 +3,7 @@
 </p>
 
 <p style="text-align: center">
-#### Visit Shake Shack with the help of Deep Learning!
+Visit Shake Shack with the help of Deep Learning!
 </p>
 
 ## Description
