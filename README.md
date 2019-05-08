@@ -1,8 +1,9 @@
 <p align="center">
 <img src="images/Deep-Shack.png" width="600">
-
-Visit Shake Shack with the help of Deep Learning!
 </p>
+
+<p align="center">Visit Shake Shack with the help of Deep Learning!<p align="center">
+
 
 ## Description
 
