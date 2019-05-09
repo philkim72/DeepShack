@@ -57,19 +57,13 @@ def predict(filename):
 
 
 def publish_message(message):
-    # sns = boto3.client('snVs')
-    # response = sns.publish(
-    #     TopicArn=TOPIC_ARN,
-    #     Message=json.dumps({'default': json.dumps(message)}),
-    #     MessageStructure='json'
-    # )
-
-        sns = boto3.client('sns')
-        response = sns.publish(
-            TopicArn='arn:aws:sns:us-east-1:245636212397:dlresult',
-            Message=json.dumps({'default': json.dumps(message)}),
+    sns = boto3.client('sns')
+    response = sns.publish(
+        TopicArn=TOPIC_ARN,
+        Message=json.dumps({'default': json.dumps(message)}),
         MessageStructure='json'
-        )
+    )
+
     return response
 
 
