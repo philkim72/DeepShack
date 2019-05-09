@@ -1,7 +1,6 @@
 import base64
 import json
 import os
-import urllib
 from urllib import request, parse
 
 
@@ -13,10 +12,11 @@ TWILIO_AUTH_TOKEN = os.environ.get("TWILIO_AUTH_TOKEN")
 def lambda_handler(event, context):
     # event_message = event['Records'][0]['Sns']['Message']
     event_message = json.loads(event['Records'][0]['Sns']['Message'])
-    
+
     to_number = "+1" + event_message['filename'][-14:-4]
     from_number = os.environ.get("from_number")
-    body = "There are " + str(event_message['prediction']) + " people in line right now. Get the Double Shack!!"
+    body = "There are " + str(event_message['prediction']) + \
+        " people in line right now. Get the Double Shack!!"
 
     # insert Twilio Account SID into the REST API URL
     populated_url = TWILIO_SMS_URL.format(TWILIO_ACCOUNT_SID)
