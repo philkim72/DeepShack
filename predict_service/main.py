@@ -14,6 +14,7 @@ MODEL_PATH = 'model/vgg16_shackcam.h5'
 MASK_PATH = 'train/data/shackcam/line_mask.png'
 TOPIC_ARN = 'arn:aws:sns:us-east-1:245636212397:dlresult'
 
+logging.getLogger().setLevel(logging.INFO)
 
 def load_s3_object(key, func, **kwargs):
     # Load S3 object as byte string
