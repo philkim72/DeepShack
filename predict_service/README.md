@@ -8,6 +8,7 @@ How to build a Docker image and deploy to ECS
 =============================
 
 ```
+docker build --no-cache --tag=deepshack_predict .
 aws ecr get-login --no-include-email --region us-east-1
 docker login -u AWS -p **** 245636212397.dkr.ecr.us-east-1.amazonaws.com
 docker tag deepshack_predict:latest 245636212397.dkr.ecr.us-east-1.amazonaws.com/deepshack_predict:latest
