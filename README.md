@@ -2,7 +2,7 @@
 <img src="images/Deep-Shack.png" width="600">
 </p>
 
-<p align="center">*Visit Shake Shack with the help of Deep Learning!*<p align="center">
+<p align="center">Visit Shake Shack with the help of Deep Learning!<p align="center">
 
 
 ## Description
@@ -24,7 +24,7 @@ There are two main use cases or the service:
 ## Microservice Architecture
 
 <p align="center">
-<img src="images/Architecture.png" width="700">
+<img src="images/Architecture_First_Sprint.png" width="700">
 </p>
 
 There are 4 services which will be implemented on AWS Lambda. This design decouples each service and allows for a serverless architecture.
