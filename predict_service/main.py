@@ -57,12 +57,19 @@ def predict(filename):
 
 
 def publish_message(message):
-    sns = boto3.client('sns')
-    response = sns.publish(
-        TopicArn=TOPIC_ARN,
-        Message=json.dumps({'default': json.dumps(message)}),
+    # sns = boto3.client('snVs')
+    # response = sns.publish(
+    #     TopicArn=TOPIC_ARN,
+    #     Message=json.dumps({'default': json.dumps(message)}),
+    #     MessageStructure='json'
+    # )
+
+        sns = boto3.client('sns')
+        response = sns.publish(
+            TopicArn='arn:aws:sns:us-east-1:245636212397:dlresult',
+            Message=json.dumps({'default': json.dumps(message)}),
         MessageStructure='json'
-    )
+        )
     return response
 
 
@@ -70,8 +77,8 @@ def run():
     image_id = os.getenv('IMAGE_ID')
     phone = os.getenv('PHONE')
 
-    pred = predict(image_id)
-    message = {'image_id': image_id, 'phone': phone, 'pred': pred}
+    prediction = predict(image_id)
+    message = {'image_id': image_id, 'phone': phone, 'prediction': prediction}
     logging.info(message)
 
     response = publish_message(message)
