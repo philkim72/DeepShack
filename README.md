@@ -24,7 +24,7 @@ There are two main use cases or the service:
 ## Microservice Architecture
 
 <p align="center">
-<img src="images/Architecture_First_Sprint.png" width="800">
+<img src="images/Architecture_First_Sprint.jpg" width="800">
 </p>
 
 There are 4 services which will be implemented on AWS Lambda as well as other services listed below. This design decouples each service and allows for a serverless architecture.
@@ -33,7 +33,7 @@ There are 4 services which will be implemented on AWS Lambda as well as other se
 - AWS Simple Notification Service (SNS) -- Managed pub/sub messaging service between microservices.
 - AWS S3 -- Object storage service for images and models.
 - AWS ECS -- Container orchestration service that allows the launch of Docker-enabled applications.
-- Twilio -- Programmable SMS service that allows for communication with AWS Lambda though an API Gateway.
+- Twilio SMS -- Programmable service that allows for communication with AWS Lambda though an API Gateway.
 
 
 Special thanks to [Dmitri](https://github.com/dimroc/count/tree/master/ml/data/annotations) for inspiring the machine learning piece and sharing annotated images for training data set.
