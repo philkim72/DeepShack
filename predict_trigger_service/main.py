@@ -3,14 +3,10 @@ import json
 
 
 def predict_trigger_handler(event, context):
-    # TODO, hardcoding for testing
     # Receive message from scraper service on the triggerPredict SNS topic:
-    # inbound_message = json.loads(event['Records'][0]['Sns']['Message'])
-    # image_id = inbound_message['image_id']
-    # phone = inbound_message['phone']
-
-    image_id = 'shackcam/2019-05-05_1658_2065125031.jpg'
-    phone = '785-979-7432'
+    inbound_message = json.loads(event['Records'][0]['Sns']['Message'])
+    image_id = inbound_message['image_id']
+    phone = inbound_message['phone']
 
     ecs = boto3.client('ecs')
     response = ecs.run_task(
