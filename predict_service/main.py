@@ -47,6 +47,15 @@ def load_masked_image(filename, new_shape):
     return img
 
 
+def predict(filename):
+    model = load_s3_object(MODEL_PATH, load_model)
+    new_shape = model.input_shape[1:3]  # (120, 120) for example
+    masked_image = load_masked_image(filename, new_shape)
+
+    pred = int(round(model.predict(masked_image)[0][0]))
+    return pred
+
+
 def publish_message(message):
     sns = boto3.client('sns')
     response = sns.publish(
@@ -55,15 +64,6 @@ def publish_message(message):
         MessageStructure='json'
     )
     return response
-
-
-def predict(filename):
-    model = load_s3_object(MODEL_PATH, load_model)
-    new_shape = model.input_shape[1:3]  # (120, 120) for example
-    masked_image = load_masked_image(filename, new_shape)
-
-    pred = int(round(model.predict(masked_image)[0][0]))
-    return pred
 
 
 def run():
