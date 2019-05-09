@@ -1,4 +1,5 @@
 import boto3
+import json
 
 
 def predict_trigger_handler(event, context):
@@ -30,4 +31,6 @@ def predict_trigger_handler(event, context):
             }
         }
     )
+
+    response = json.dumps(response, sort_keys=True, default=str)
     return response
