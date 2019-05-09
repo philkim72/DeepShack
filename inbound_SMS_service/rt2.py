@@ -3,29 +3,23 @@ import json
 import boto3
 
 def lambda_handler(event, context):
-    # Process message from the Lex Service:
-    print("Processing message from Twilio")
     
-    message = {
-        'type': "twilio_inbound",
-        'from': event["From"],
-        'body': event["Body"],
-    }
+    # Extract phone number from text and compose outbound message
+    outbound_message = {'from': event["From"]}
     
+    # TODO (Phil)
+    # Process the SMS content from the user
+    # - if text_content contains a keyword suggesting the user wants to scrape, kick off the scraper
+    # - otherwise, respond to the user with a clarifying question
     text_content = event["Body"]
     
-    # TODO (Phil):
-    # if text_content contains a keyword suggesting the user wants to scrape, kick off the scraper
-    # otherwise, respond to the user with a clarifying question
-    
-    # Scrape:
+    # Send outbound_message to scraper service on lexMessage topic
     sns = boto3.client('sns')
     response = sns.publish(
         TopicArn='arn:aws:sns:us-east-1:245636212397:lexMessage',   
-        Message=json.dumps({'default': json.dumps(message)}),
+        Message=json.dumps({'default': json.dumps(outbound_message)}),
         MessageStructure='json'
     )
     # print("Received event: " + str(event))
-    print("Important info: ", message)
     return '<?xml version=\"1.0\" encoding=\"UTF-8\"?>'\
           '<Response><Message>Hello from DeepShack! We are calculating your time-to-burger. Hang tight...</Message></Response>'
