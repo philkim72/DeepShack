@@ -1,5 +1,3 @@
-# Original Scraper
-
 from datetime import datetime
 from time import sleep
 from botocore.vendored import requests
@@ -17,22 +15,32 @@ def make_request():
     else:
         return r
 
-
 def scrape_handler(event, context):
-    # Temp oscar work 5/4
-    # only works if you trigger this function with a text message;
-    # need to handle the other use case:
+    
+    # Receive message from inbound_SMS_service on the lexMessage SNS topic:
     event_message = json.loads(event['Records'][0]['Sns']['Message'])
     # event_message = event['Records'][0]['Sns']['Message']
-
+    
+    # Get phone number:
     phone_raw = event_message['from']
-    phone = phone_raw[-10:]
-
-    # Image filename:
+    phone = phone_raw.split("B")[-1]
+    
+    # Get image filename:
     timestamp = datetime.now()
     timestamp_str = timestamp.strftime('%Y-%m-%d_%H%M_')
     filename = f'shackcam/{timestamp_str}' + phone + '.jpg'
-
+    
+    # Create message and send to predict_service_trigger on topic "triggerPredict"
+    outbound_message = {'image_id': filename,
+                        'phone': phone}
+    
+    sns = boto3.client('sns')
+    response = sns.publish(
+        TopicArn='arn:aws:sns:us-east-1:245636212397:triggerPredict',   
+        Message=json.dumps({'default': json.dumps(outbound_message)}),
+        MessageStructure='json'
+    )
+    
     # Try 3 times to load an image
     fail_count = 0
     for x in range(0, 2):
@@ -51,9 +59,10 @@ def scrape_handler(event, context):
         copy_source = {'Bucket': 'deepshack', 'Key': 'samples/s_test.jpg'}
         bucket = s3.Bucket('deepshack')
         bucket.copy(copy_source, filename)
-
+        # write_to_dynamo(filename, phone, 0)
+        
     else:
-        # Actually scrape the image if shack cam is working
+        # Scrape the image if shack cam is working
         session = boto3.Session()
         s3 = session.resource('s3')
         bucket_name = 'deepshack'
@@ -61,7 +70,6 @@ def scrape_handler(event, context):
 
         r.raw.decode_content = True
         bucket.upload_fileobj(r.raw, filename)
-
-    return {
-        'filename': filename
-    }
+        # write_to_dynamo(filename, phone, 0)
+        
+    return outbound_message
