@@ -3,7 +3,7 @@ import json
 import boto3
 
 def lambda_handler(event, context):
-    #
+    
     # Extract phone number from text and compose outbound message
     outbound_message = {'from': event["From"]}
     
