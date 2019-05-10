@@ -37,7 +37,8 @@ class BaseModel(metaclass=abc.ABCMeta):
 
         fn_base = f'{self.image_dir}/results/{self.name}'
 
-        opt = Adam(lr=lr, beta_1=beta_1, beta_2=beta_2, epsilon=epsilon, decay=decay)
+        opt = Adam(lr=lr, beta_1=beta_1, beta_2=beta_2,
+                   epsilon=epsilon, decay=decay)
         self.model.compile(optimizer=opt, loss='mse')
 
         mc = ModelCheckpoint(fn_base + '.h5', save_best_only=True, mode='min')
@@ -100,7 +101,8 @@ class MultiScaleCNN(BaseModel):
         # Density Map Regression
         outputs = Conv2D(filters=1000, kernel_size=1, activation='relu',
                          kernel_regularizer=l2(5e-4))(outputs)
-        outputs = Conv2D(filters=1, kernel_size=1, activation='linear')(outputs)
+        outputs = Conv2D(filters=1, kernel_size=1,
+                         activation='linear')(outputs)
 
         model = Model(inputs=inputs, outputs=outputs)
         return model
