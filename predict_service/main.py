@@ -1,32 +1,20 @@
 import json
-import random
+import os
 import tempfile
+import logging
 
-import numpy as np
 import boto3
 import cv2
+import numpy as np
 from tensorflow.python.keras.models import load_model
 
 
 S3_BUCKET = 'deepshack'
 MODEL_PATH = 'model/vgg16_shackcam.h5'
 MASK_PATH = 'train/data/shackcam/line_mask.png'
+TOPIC_ARN = 'arn:aws:sns:us-east-1:245636212397:triggerSMS'
 
-
-def predict_handler(event, context):
-    s3_message = event['Records'][0]['s3']
-
-    message = {'prediction': random.randint(0, 10),
-               'filename': s3_message['object']['key']}
-
-    sns = boto3.client('sns')
-    response = sns.publish(
-        TopicArn='arn:aws:sns:us-east-1:245636212397:dlresult',
-        Message=json.dumps({'default': json.dumps(message)}),
-        MessageStructure='json'
-    )
-
-    return {'statusCode': 200, 'body': json.dumps(message)}
+logging.getLogger().setLevel(logging.INFO)
 
 
 def load_s3_object(key, func, **kwargs):
@@ -66,5 +54,32 @@ def predict(filename):
     new_shape = model.input_shape[1:3]  # (120, 120) for example
     masked_image = load_masked_image(filename, new_shape)
 
-    pred = model.predict(masked_image)
-    return pred[0][0]
+    pred = int(round(model.predict(masked_image)[0][0]))
+    return pred
+
+
+def publish_message(message):
+    sns = boto3.client('sns')
+    response = sns.publish(
+        TopicArn=TOPIC_ARN,
+        Message=json.dumps({'default': json.dumps(message)}),
+        MessageStructure='json'
+    )
+
+    return response
+
+
+def run():
+    image_id = os.getenv('IMAGE_ID')
+    phone = os.getenv('PHONE')
+
+    prediction = predict(image_id)
+    message = {'image_id': image_id, 'phone': phone, 'prediction': prediction}
+    logging.info(message)
+
+    response = publish_message(message)
+    logging.info(response)
+
+
+if __name__ == '__main__':
+    run()
