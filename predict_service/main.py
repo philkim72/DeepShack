@@ -12,7 +12,7 @@ from tensorflow.python.keras.models import load_model
 S3_BUCKET = 'deepshack'
 MODEL_PATH = 'model/vgg16_shackcam.h5'
 MASK_PATH = 'train/data/shackcam/line_mask.png'
-TOPIC_ARN = 'arn:aws:sns:us-east-1:245636212397:dlresult'
+TOPIC_ARN = 'arn:aws:sns:us-east-1:245636212397:triggerSMS'
 
 logging.getLogger().setLevel(logging.INFO)
 
