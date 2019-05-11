@@ -1,79 +1,90 @@
+import json
+import logging
 from datetime import datetime
 from time import sleep
+
+from pytz import timezone
 from botocore.vendored import requests
-from fake_useragent import UserAgent
 import boto3
-import json
+from fake_useragent import UserAgent
+
+URL = 'http://cdn.shakeshack.com/camera.jpg'
+PREDICT_TOPIC_ARN = 'arn:aws:sns:us-east-1:245636212397:triggerPredict'
+SMS_TOPIC_ARN = 'arn:aws:sns:us-east-1:245636212397:triggerSMS'
+S3_BUCKET = 'deepshack'
+
+logging.getLogger().setLevel(logging.INFO)
 
 
 def make_request():
-
-    url = 'http://cdn.shakeshack.com/camera.jpg'
+    """Sends GET request to the ShackCam and returns response object"""
     headers = {'user-agent': UserAgent().random}
-    r = requests.get(url, stream=True, headers=headers)
+    r = requests.get(URL, stream=True, headers=headers)
     if r.headers['content-length'] == '0':
         raise ValueError('No image was loaded, trying again...')
     else:
         return r
 
 
-def scrape_handler(event, context):
-
-    # Receive message from inbound_SMS_service on the lexMessage SNS topic:
-    event_message = json.loads(event['Records'][0]['Sns']['Message'])
-    # event_message = event['Records'][0]['Sns']['Message']
-
-    # Get phone number:
-    phone_raw = event_message['from']
-    phone = phone_raw.split("B")[-1]
-
-    # Get image filename:
-    timestamp = datetime.now()
-    timestamp_str = timestamp.strftime('%Y-%m-%d_%H%M_')
-    filename = f'shackcam/{timestamp_str}' + phone + '.jpg'
-
-    # Create message and send to predict_service_trigger
-    # on topic "triggerPredict"
-    outbound_message = {'image_id': filename,
-                        'phone': phone}
-
+def publish_message(message, topic_arn):
     sns = boto3.client('sns')
     response = sns.publish(
-        TopicArn='arn:aws:sns:us-east-1:245636212397:triggerPredict',
-        Message=json.dumps({'default': json.dumps(outbound_message)}),
+        TopicArn=topic_arn,
+        Message=json.dumps({'default': json.dumps(message)}),
         MessageStructure='json'
     )
-    print(response)
+    logging.info(response)
 
-    # Try 3 times to load an image
+
+def scrape_handler(event, context):
+    """
+    Main function that gets called by Lambda. Subscribes to a message topic,
+    triggerPredict, scrapes an image, saves to AWS S3, and then publishes
+    messages to triggerPredict and triggerSMS
+    """
+
+    # Receive message from upstream service
+    event_message = json.loads(event['Records'][0]['Sns']['Message'])
+    # event_message = event['Records'][0]['Sns']['Message']
+    phone_number = event_message['phone_number'].split("B")[-1]
+
+    timestamp = datetime.now(timezone('EST'))
+    timestamp_str = timestamp.strftime('%Y_%m_%d_%H%M')
+    filename = f'shackcam/{timestamp_str}.jpg'
+
+    outbound_message = {'filename': filename, 'phone_number': phone_number}
+
+    # Try 3 times to scrape an image
     fail_count = 0
-    for x in range(0, 2):
+    for _ in range(0, 2):
         try:
+            # Scrape
             r = make_request()
+            r.raw.decode_content = True
+
+            # Upload to S3
+            session = boto3.Session()
+            s3 = session.resource('s3')
+            bucket = s3.Bucket(S3_BUCKET)
+            bucket.upload_fileobj(r.raw, filename)
+
+            # Publish message to downstream services
+            publish_message(outbound_message, PREDICT_TOPIC_ARN)
+            outbound_message['body'] = (
+                "Good news! DeepShack is on your way."
+                "Image was scraped from ShackCam and saved on AWS S3."
+                "predict_trigger_service on Lambda will be called next"
+            )
+            publish_message(outbound_message, SMS_TOPIC_ARN)
+
         except ValueError as err:
-            print(err)
+            logging.info(err)
             fail_count += 1
             sleep(1)
-            pass
 
-    # Upload image to S3
-    if fail_count >= 2:
-        # If shack cam is failing, just send an old image to S3
-        s3 = boto3.resource('s3')
-        copy_source = {'Bucket': 'deepshack', 'Key': 'samples/s_test.jpg'}
-        bucket = s3.Bucket('deepshack')
-        bucket.copy(copy_source, filename)
-        # write_to_dynamo(filename, phone, 0)
-
-    else:
-        # Scrape the image if shack cam is working
-        session = boto3.Session()
-        s3 = session.resource('s3')
-        bucket_name = 'deepshack'
-        bucket = s3.Bucket(bucket_name)
-
-        r.raw.decode_content = True
-        bucket.upload_fileobj(r.raw, filename)
-        # write_to_dynamo(filename, phone, 0)
-
-    return outbound_message
+        # Publish failed message to downstream services
+        outbound_message['body'] = (
+                "Bad news:( Image was not successfully scraped from ShackCam."
+                "No Shake Shack for you today."
+        )
+        publish_message(outbound_message, SMS_TOPIC_ARN)
