@@ -75,12 +75,34 @@ We chose Amazon S3 to store scraped images. After setting up an S3 bucket, we ne
 ## INPUT
 The Scraper services subscribes to the AWS SNS topic *triggerScrape* which will contain the variable *phone_number* which contains the user's phone number.
 
+Below is a portion of the JSON received by this service:
+
+```
+{ 
+    'phone_number': phone_number, 
+}
+```
+
 ## OUTPUT
 The Scraper service publishes two separate AWS SNS topics.
 
 * *triggerPredict*: This topic is subscribed by the PredictTrigger Service.  It will contain the two variables *filename* which is the name of the ShackCam image that is saved in S3 and *phone_number* which contains the user's phone number.
 
-* *triggerSMS*: This topic is subscribed by the Outbound SMS Service.  It will contain just one variable *body* which contains a status message for transmission back to the user in real-time.
+```
+{
+    'phone_number': phone_number,
+    'filename': filename
+}
+```
+
+* *triggerSMS*: This topic is subscribed by the Outbound SMS Service.  It will contain two variables *phone_number* which contains the user's phon number and *body* which contains a status message for transmission back to the user in real-time.
+
+```
+{
+    'phone_number': phone_number,
+    'body': body
+}
+```
 
 ## TEST CASE
 * Example of JSON to run a test
