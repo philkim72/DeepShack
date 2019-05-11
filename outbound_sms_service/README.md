@@ -23,23 +23,23 @@ This AWS role requires the following permissions:
 
 This microservice receives the following message structure from all other microservices:
 
-"""
+```
 {
     'phone_number': phone_number,
     'body': body
 }
-"""
+```
 
 
 ## OUTPUT
 
 This microservice passes the following parameters to Twilio via a POST request:
 
-"""
+```
 {
     "To": to_number, 
     "From": from_number, 
     "Body": body
 }
-"""
+```
 
