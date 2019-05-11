@@ -103,7 +103,3 @@ The Scraper service publishes two separate AWS SNS topics.
     'body': body
 }
 ```
-
-## TEST CASE
-* Example of JSON to run a test
-* Describe expected behaviour

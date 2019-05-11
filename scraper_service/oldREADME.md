@@ -9,6 +9,7 @@ Prerequisites
 =============
 
 This service has three dependencies:
+
 1. AWS Lambda
 2. Python Libraries
 3. Amazon S3
