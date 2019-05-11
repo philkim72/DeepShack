@@ -95,7 +95,7 @@ The Scraper service publishes two separate AWS SNS topics.
 }
 ```
 
-* *triggerSMS*: This topic is subscribed by the Outbound SMS Service.  It will contain two variables *phone_number* which contains the user's phon number and *body* which contains a status message for transmission back to the user in real-time.
+* *triggerSMS*: This topic is subscribed by the Outbound SMS Service.  It will contain two variables *phone_number* which contains the user's phone number and *body* which contains a status message for transmission back to the user in real-time.
 
 ```
 {
