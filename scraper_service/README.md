@@ -75,7 +75,7 @@ We chose Amazon S3 to store scraped images. After setting up an S3 bucket, we ne
 ## INPUT
 The Scraper services subscribes to the AWS SNS topic *triggerScrape* which will contain the variable *phone_number* which contains the user's phone number.
 
-Below is a portion of the JSON received by this service:
+The following JSON message is received by this service:
 
 ```
 { 
