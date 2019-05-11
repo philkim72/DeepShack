@@ -1,0 +1,11 @@
+{
+  "Records": [
+    {
+      "Sns": {
+        "Message": {
+            "phone_number":"B123456789"
+        }
+      }
+    }
+  ]
+}
