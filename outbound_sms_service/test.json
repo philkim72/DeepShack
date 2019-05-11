@@ -1,0 +1,12 @@
+{
+  "Records": [
+    {
+      "Sns": {
+        "Message": {
+          "phone_number": "B123456789",
+          "filename": "filename_test"
+        }
+      }
+    }
+  ]
+}
