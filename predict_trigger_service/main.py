@@ -1,12 +1,16 @@
-import boto3
 import json
+import logging
+
+import boto3
+
+logging.getLogger().setLevel(logging.INFO)
 
 
 def predict_trigger_handler(event, context):
-    # Receive message from scraper service on the triggerPredict SNS topic:
+    """Subscribes to triggerPredict SNS topic and triggers"""
     inbound_message = json.loads(event['Records'][0]['Sns']['Message'])
-    image_id = inbound_message['image_id']
-    phone = inbound_message['phone']
+    filename = inbound_message['filename']
+    phone_number = inbound_message['phone_number']
 
     ecs = boto3.client('ecs')
     response = ecs.run_task(
@@ -16,8 +20,8 @@ def predict_trigger_handler(event, context):
         count=1,
         overrides={'containerOverrides': [{
             'name': 'deepshack_predict_container',
-            'environment': [{'name': 'IMAGE_ID', 'value': image_id},
-                            {'name': 'PHONE', 'value': phone}]
+            'environment': [{'name': 'IMAGE_ID', 'value': filename},
+                            {'name': 'PHONE', 'value': phone_number}]
         }]},
         platformVersion='LATEST',
         networkConfiguration={
@@ -29,4 +33,4 @@ def predict_trigger_handler(event, context):
     )
 
     response = json.dumps(response, sort_keys=True, default=str)
-    return response
+    logging.info(response)
