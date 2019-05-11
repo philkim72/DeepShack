@@ -1,2 +1,1 @@
- Receive Text Service
-======================
+# inbound_sms_service
