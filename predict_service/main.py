@@ -1,7 +1,7 @@
 import json
+import logging
 import os
 import tempfile
-import logging
 
 import boto3
 import cv2
@@ -18,6 +18,10 @@ logging.getLogger().setLevel(logging.INFO)
 
 
 def load_s3_object(key, func, **kwargs):
+    """
+    Loads a S3 object as byte string, creates a temp file, and then opens it
+    by applying the provided function and kwargs.
+    """
     # Load S3 object as byte string
     s3 = boto3.client('s3')
     obj = s3.get_object(Bucket=S3_BUCKET, Key=key)
@@ -32,6 +36,7 @@ def load_s3_object(key, func, **kwargs):
 
 
 def load_masked_image(filename, new_shape):
+    """Load an image and apply mask"""
     # Load image
     img = load_s3_object(filename, cv2.imread)
     img = cv2.resize(img, new_shape) / 255
@@ -50,6 +55,7 @@ def load_masked_image(filename, new_shape):
 
 
 def predict(filename):
+    """Opens an image file and predicts line count"""
     model = load_s3_object(MODEL_PATH, load_model)
     new_shape = model.input_shape[1:3]  # (120, 120) for example
     masked_image = load_masked_image(filename, new_shape)
@@ -58,18 +64,21 @@ def predict(filename):
     return pred
 
 
-def publish_message(message):
+def publish_message(message, topic_arn):
     sns = boto3.client('sns')
     response = sns.publish(
-        TopicArn=TOPIC_ARN,
+        TopicArn=topic_arn,
         Message=json.dumps({'default': json.dumps(message)}),
         MessageStructure='json'
     )
-
-    return response
+    logging.info(response)
 
 
 def run():
+    """
+    Main function that loads an image and model, predicts line count, and then
+    submits a message to SNS triggerSMS topic
+    """
     image_id = os.getenv('IMAGE_ID')
     phone = os.getenv('PHONE')
 
