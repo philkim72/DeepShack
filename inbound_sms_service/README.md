@@ -1,22 +1,52 @@
-# NAME OF THE FUNCTION
+# Inbound SMS Service
 
 ## DESCRIPTION
-* Describe what it does
-* List all the topics it is subscribed to
-* List where it publishes any message to
+
+When an end user texts the DeepShack hotline, Twilio makes a POST request to AWS. This service handles that POST request. Specifically, it extracts the user's phone number, which it passess to downstream microservices.
+
+This service publishes messages to the following microservices:
+* scraper_service (via the triggerScraper topic)
+* outbound_sms_service (via the triggerSMS topic)
 
 ## DEPENDENCIES
-List any package needed
+* boto3
+* json
 
 ## ROLE
-List all roles/permissions that this service needs (e.g. SNS Full Access)
+
+This AWS role requires the following permissions:
+* AWS SNS full access
+* AWS lambda basic execution role
 
 ## INPUT
-Example of the message it reads From
+
+When Twilio makes a POST request to AWS, the HTTP parameters are split into JSON key value pairs. Below is a portion of the JSON received by this service:
+
+`{
+    'Body': 'Hello+Deep+Shack',
+    'To': '<twilio_phone_number>', 
+    'From': '<personal_phone_number>', 
+}`
 
 ## OUTPUT
-Example of the json it publishes
+
+Message published to scraper service:
+
+`{
+    'from': '<user_phone_number>'
+}`
+
+Message published to outbound_sms service:
+
+TBD
+
 
 ## TEST CASE
-* Example of json to run a test
-* Describe xpected  behaviour
+
+The following test can be created and used in AWS Lambda's development environment:
+
+`{
+    'Body': 'Hello+Deep+Shack', 
+    'To': '<twilio_phone_number>', 
+    'From': '<personal_phone_number>', 
+}`
