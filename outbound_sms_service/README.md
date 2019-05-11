@@ -1,22 +1,45 @@
 # NAME OF THE FUNCTION
 
 ## DESCRIPTION
-* Describe what it does
-* List all the topics it is subscribed to
-* List where it publishes any message to
+
+This microservice sends SMS messages to the end user. It receives messages from all other microservices and updates the user when those microservices have completed.
+
+Input: outbound_sms is subscribed to the triggerSMS topic.
+Output: outbound_sms makes an HTTP POST request to Twilio, which sends an SMS to the end user.
 
 ## DEPENDENCIES
-List any package needed
+* base64
+* json
+* os
+* urllib
 
 ## ROLE
-List all roles/permissions that this service needs (e.g. SNS Full Access)
+
+This AWS role requires the following permissions:
+* AWS SNS full access
+* AWS lambda basic execution role
 
 ## INPUT
-Example of the message it reads From
+
+This microservice receives the following message structure from all other microservices:
+
+"""
+{
+    'phone_number': phone_number,
+    'body': body
+}
+"""
+
 
 ## OUTPUT
-Example of the json it publishes
 
-## TEST CASE
-* Example of json to run a test
-* Describe xpected  behaviour
+This microservice passes the following parameters to Twilio via a POST request:
+
+"""
+{
+    "To": to_number, 
+    "From": from_number, 
+    "Body": body
+}
+"""
+

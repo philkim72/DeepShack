@@ -22,31 +22,30 @@ This AWS role requires the following permissions:
 
 When Twilio makes a POST request to AWS, the HTTP parameters are split into JSON key value pairs. Below is a portion of the JSON received by this service:
 
-`{
+"""
+{
     'Body': 'Hello+Deep+Shack',
     'To': '<twilio_phone_number>', 
     'From': '<personal_phone_number>', 
-}`
+}
+"""
 
 ## OUTPUT
 
-Message published to scraper service:
+This microservice publishes the following two messages:
+To scraper service:
 
-`{
-    'from': '<user_phone_number>'
-}`
+"""
+{
+    'phone_number': phone_number
+}
+"""
 
-Message published to outbound_sms service:
+To outbound_sms service:
 
-TBD
-
-
-## TEST CASE
-
-The following test can be created and used in AWS Lambda's development environment:
-
-`{
-    'Body': 'Hello+Deep+Shack', 
-    'To': '<twilio_phone_number>', 
-    'From': '<personal_phone_number>', 
-}`
+"""
+{
+    'phone_number': phone_number,
+    'body': body
+}
+"""
