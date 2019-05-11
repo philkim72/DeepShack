@@ -29,3 +29,11 @@ Since the image set we are using is annotated for people waiting in line only, i
 ## OUTPUT
 
 The trained model and weights are saved in h5 format in AWS S3 bucket
+
+## RUN ON DOCKER
+
+You could run Jupyter Notebook with Docker (Prediction service will use the same docker environment), which comes with Python3.5 and TensorFlow. Update `requirements.txt` if you want to add Python packages.
+
+    docker build --tag=deepshack .
+    docker run -it --rm -v $(pwd):/tf/DeepShack -p 9999:9999 deepshack
+    http://localhost:9999
