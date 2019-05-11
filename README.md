@@ -19,7 +19,7 @@ So to ease the decision making process on whether to visit Shake Shack at any gi
 ## Microservice Architecture
 
 <p align="center">
-<img src="images/Architecture_First_Sprint.jpg" width="800">
+<img src="images/First_Sprint_Architecture.jpg" width="800">
 </p>
 
 There are 4 services which will be implemented on AWS Lambda as well as other services listed below. This design decouples each service and allows for a serverless architecture.
