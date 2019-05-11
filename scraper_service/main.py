@@ -27,6 +27,7 @@ def make_request():
 
 
 def publish_message(message, topic_arn):
+    """Publishes a message to SNS topic"""
     sns = boto3.client('sns')
     response = sns.publish(
         TopicArn=topic_arn,

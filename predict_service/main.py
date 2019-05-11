@@ -65,6 +65,7 @@ def predict(filename):
 
 
 def publish_message(message, topic_arn):
+    """Publishes a message to SNS topic"""
     sns = boto3.client('sns')
     response = sns.publish(
         TopicArn=topic_arn,
@@ -79,13 +80,17 @@ def run():
     Main function that loads an image and model, predicts line count, and then
     submits a message to SNS triggerSMS topic
     """
-    image_id = os.getenv('IMAGE_ID')
-    phone = os.getenv('PHONE')
+    # Reads config from environment variable
+    filename = os.getenv('FILENAME')
+    phone_number = os.getenv('PHONE_NUMBER')
 
-    prediction = predict(image_id)
-    message = {'image_id': image_id, 'phone': phone, 'prediction': prediction}
-    logging.info(message)
+    # Predict
+    prediction = predict(filename)
 
+    # Publishes a message
+    body = ("There are " + prediction +
+            "people in line right now. Get the Double Shack!!")
+    message = {'filename': filename, 'phone_number': phone_number, 'body': body}
     response = publish_message(message)
     logging.info(response)
 
