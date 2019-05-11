@@ -78,10 +78,10 @@ The Scraper services subscribes to the AWS SNS topic *triggerScrape* which will 
 ## OUTPUT
 The Scraper service publishes two separate AWS SNS topics.
 
-* triggerPredict: This topic will contain two variables *filename* which is the name of the ShackCam image that is saved in S3 and *phone_number* which contains the user's phone number.
+* *triggerPredict*: This topic is subscribed by the PredictTrigger Service.  It will contain the two variables *filename* which is the name of the ShackCam image that is saved in S3 and *phone_number* which contains the user's phone number.
 
-* triggerSMS: This topic will contain just one variable *body* which contains a status message to be sent to the Outbound SMS Service for transmission back to the user in real-time.
+* *triggerSMS*: This topic is subscribed by the Outbound SMS Service.  It will contain just one variable *body* which contains a status message for transmission back to the user in real-time.
 
 ## TEST CASE
-* Example of json to run a test
+* Example of JSON to run a test
 * Describe expected behaviour
