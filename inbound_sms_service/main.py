@@ -22,16 +22,16 @@ def lambda_handler(event, context):
     outbound_message = {'phone_number': "+" + event['From'].split("B")[-1]}
     message_content = event['Body'].strip()
     if message_content not in ('0', '1'):
-        text_message = """0 - About the Service\n1 - How long is the line at Shake Shack?"""
+        text_message = ("Hello from DeepShack!\n\nDeepShack Menu:\n0 - About the Service\n"
+                        "1 - How long is the line at Shake Shack?")
         outbound_message['body'] = text_message
         publish_message(outbound_message, SMS_TOPIC_ARN)
     else:
         if message_content == '0':
-            text_message = ("Hello from DeepShack! – A service that estimates the line "
-                            "at the Shake Shack located at Madison Square Park.  The "
-                            "service is based on a loosely coupled microservice architecture "
-                            "implemented using Twilio SMS, AWS Lambda (Serverless Compute), "
-                            "Elastic Container Service (ECS) and Simple Notification System (SNS).")
+            text_message = ("A Deep Learning application that estimates the Shake Shack line "
+                            "using the live streaming located at Madison Square Park. The "
+                            "application is based on a decoupled microservice architecture "
+                            "implemented using AWS ECS, Lambda, SNS and Twilio SMS.")
             outbound_message['body'] = text_message
             publish_message(outbound_message, SMS_TOPIC_ARN)
         else:
