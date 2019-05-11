@@ -36,7 +36,7 @@ b. fake_useragent
 
 We use this library in conjunction with the requests library because, when making repeated HTTP requests, we want to simulate using different browsers for each programmatic request.
 
-Because this library is not readily available to AWS Lambda, we have to upload it to AWS. The process is as follows (_`see here for detailed instructions <https://medium.com/@qtangs/creating-new-aws-lambda-layer-for-python-pandas-library-348b126e9f3e>`_):
+Because this library is not readily available to AWS Lambda, we have to upload it to AWS. The process is as follows (see here for detailed instructions <https://medium.com/@qtangs/creating-new-aws-lambda-layer-for-python-pandas-library-348b126e9f3e>):
 
 Install package locally by creating a `requirements.txt` file containing the following:
 
@@ -73,11 +73,15 @@ Once you have created a zipfile with the fake_useragent library, upload it to yo
 We chose Amazon S3 to store scraped images. After setting up an S3 bucket, we needed to grant our scraper service "full access" to the S3 bucket. This enables the service to write to S3. Access to S3 can be granted through Amazon's IAM UI.
 
 ## INPUT
-Example of the message it reads From
+The Scraper services subscribes to the AWS SNS topic *triggerScrape* which will contain the variable *phone_number* which contains the user's phone number.
 
 ## OUTPUT
-Example of the json it publishes
+The Scraper service publishes two separate AWS SNS topics.
+
+* triggerPredict: This topic will contain two variables *filename* which is the name of the ShackCam image that is saved in S3 and *phone_number* which contains the user's phone number.
+
+* triggerSMS: This topic will contain just one variable *body* which contains a status message to be sent to the Outbound SMS Service for transmission back to the user in real-time.
 
 ## TEST CASE
 * Example of json to run a test
-* Describe xpected  behaviour
+* Describe expected behaviour
