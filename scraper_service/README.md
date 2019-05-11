@@ -1,43 +1,42 @@
- Scraper Service
-================
+# Scraper Service
 
+## DESCRIPTION
 Shake Shack provides real-time images of the store-front on the Shake Shack website. In order to count the number of people in line, we use these images as our starting point.
 
-This scraper service downloads the images and saves them to S3. From S3, the images are used by downstream services. The service can be run on a schedule or *ad hoc*.
+This scraper service downloads the images and saves them to S3. From S3, the images are used by downstream services. The service can be run on a schedule or triggered by a user-initiated request such as a text message.
 
-Prerequisites
-=============
+* The Scraper Service is subscribed to the *triggerScrape* topic.
+* The Scraper Service publishes topics such as *triggerPredict* and *triggerSMS*
 
+## DEPENDENCIES
 This service has three dependencies:
+
 1. AWS Lambda
 2. Python Libraries
 3. Amazon S3
 
-1. AWS Lambda
------------------
+#### 1. AWS Lambda
 
 This is an Amazon product that allows you to create serverless applications. One can create an account and get started with Lambda here: https://aws.amazon.com/lambda/
 
 
-2. Python Libraries
--------------------
+#### 2. Python Libraries
 
 This service depends on two python libraries:
 
 
 a. requests
-~~~~~~~~~~~~~~~~~~~~~~
 
-This library allows you to make HTTP requests with Python. This is library is readily available with AWS Lambda. Simply including the following code in your Lambda function:
+This library allows you to make HTTP requests with Python. It is readily available with AWS Lambda. Simply including the following code in your Lambda function:
+
 `from botocore.vendored import requests`
 
 
 b. fake_useragent
-~~~~~~~~~~~~~~~~~~~~~~
 
 We use this library in conjunction with the requests library because, when making repeated HTTP requests, we want to simulate using different browsers for each programmatic request.
 
-Because this library is not readily available to AWS Lambda, we have to upload it to AWS. The process is as follows (`see here for detailed instructions <https://medium.com/@qtangs/creating-new-aws-lambda-layer-for-python-pandas-library-348b126e9f3e>`_):
+Because this library is not readily available to AWS Lambda, we have to upload it to AWS. The process is as follows (see here for detailed instructions <https://medium.com/@qtangs/creating-new-aws-lambda-layer-for-python-pandas-library-348b126e9f3e>):
 
 Install package locally by creating a `requirements.txt` file containing the following:
 
@@ -69,36 +68,38 @@ zip -r my-Python36-Pandas23.zip .
 Once you have created a zipfile with the fake_useragent library, upload it to your Lambda function with the UI.
 
 
-3. Amazon S3
------------------
+#### 3. Amazon S3
 
 We chose Amazon S3 to store scraped images. After setting up an S3 bucket, we needed to grant our scraper service "full access" to the S3 bucket. This enables the service to write to S3. Access to S3 can be granted through Amazon's IAM UI.
 
-Running the Service
-====================
+## INPUT
+The Scraper services subscribes to the AWS SNS topic *triggerScrape* which will contain the variable *phone_number* which contains the user's phone number.
 
-The scraper service does not require any inputs, so it can be triggered at any time. We trigger the service in one of two ways:
+The following JSON message is received by this service:
 
+```
+{ 
+    'phone_number': phone_number, 
+}
+```
 
-a. On a Schedule
------------------
+## OUTPUT
+The Scraper service publishes two separate AWS SNS topics.
 
-AWS Cloudwatch provides a mechanism to schedule the execution of AWS Lambda functions. We scheduled the service to run every 30 minutes.
+* *triggerPredict*: This topic is subscribed by the PredictTrigger Service.  It will contain the two variables *filename* which is the name of the ShackCam image that is saved in S3 and *phone_number* which contains the user's phone number.
 
+```
+{
+    'phone_number': phone_number,
+    'filename': filename
+}
+```
 
-b. *Ad hoc*
------------------
+* *triggerSMS*: This topic is subscribed by the Outbound SMS Service.  It will contain two variables *phone_number* which contains the user's phone number and *body* which contains a status message for transmission back to the user in real-time.
 
-In a subsequent iteration, we will use another service (check_line) to make an API call to trigger the scraper service.
-
-Deployment
-=============
-
-The scraper service is manually deployed from Github (used for version control and managing codebase). We will set up continuous integration in a subsequent version.
-
-
-Built With
-=============
-
-- `AWS Lambda <https://aws.amazon.com/lambda/>`_ - Serverless framework used
-- `S3 <https://aws.amazon.com/s3/getting-started/>`_ - File management
+```
+{
+    'phone_number': phone_number,
+    'body': body
+}
+```
