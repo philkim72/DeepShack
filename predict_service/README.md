@@ -1,11 +1,23 @@
-Prediction Service
-==================
+# Prediction Service
 
-The predict service is implemented as an AWS Lambda function. The service makes a prediction based on the last file added to the `shackcam` S3 bucket by the preceding "scraper" service. The predict service publishes the prediction result to another SNS topic called `dlresult`, to which the email and SMS services are subscribed.
+## DESCRIPTION
 
+The predict service is implemented using AWS ECS. The service will read h5 (model and weights file for trained neural network) to create neural network and make prediction on input image.
 
-How to build a Docker image and deploy to ECS
-=============================
+## DEPENDENCIES
+
+* Machine Learning Library: TensorFlow, Keras
+* Other Python libraries: pandas, matplotlib, PIL, cv2
+
+## INPUT
+
+The service will read image name from ECS environment variable.
+
+## OUTPUT
+
+The predict service publishes the prediction result to SNS topic called `tirggerSMS`, to which Outbound SMS service is subscribed.
+
+## Deployment to ECS
 
 ```
 docker build --no-cache --tag=deepshack_predict .
