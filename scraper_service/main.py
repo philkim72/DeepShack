@@ -45,8 +45,7 @@ def scrape_handler(event, context):
     """
 
     # Receive message from upstream service
-    event_message = json.loads(event['Records'][0]['Sns']['Message'])
-    # event_message = event['Records'][0]['Sns']['Message']
+    event_message = event['Records'][0]['Sns']['Message']
     phone_number = event_message['phone_number'].split("B")[-1]
 
     timestamp = datetime.now(timezone('EST'))
