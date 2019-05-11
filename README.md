@@ -22,7 +22,7 @@ So to ease the decision making process on whether to visit Shake Shack at any gi
 <img src="images/First_Sprint_Architecture.jpg" width="800">
 </p>
 
-There are 4 services which will be implemented on AWS Lambda as well as other services listed below. This design decouples each service and allows for a serverless architecture.
+There are 5 services which will be implemented on AWS Lambda as well as other services listed below. This design decouples each service and allows for a serverless architecture.
 
 - AWS Lambda  -- Standalone microservices that are triggered by events.
 - AWS Simple Notification Service (SNS) -- Managed pub/sub messaging service between microservices.
