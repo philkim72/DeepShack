@@ -15,7 +15,7 @@ def publish_message(message, topic_arn):
         Message=json.dumps({'default': json.dumps(message)}),
         MessageStructure='json'
     )
-    logging.info(response)
+    logging.info(response) 
 
 def predict_trigger_handler(event, context):
     """Subscribes to triggerPredict SNS topic and triggers"""
