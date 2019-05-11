@@ -27,11 +27,6 @@ def lambda_handler(event, context):
         publish_message(outbound_message, SMS_TOPIC_ARN)
     else:
         if message_content == '0':
-            text_message = "Team profile"
-            outbound_message['body'] = text_message
-            publish_message(outbound_message, SMS_TOPIC_ARN)
-        else:
-            publish_message(outbound_message, SCRAPE_TOPIC_ARN)
             text_message = ("Hello from DeepShack! – A service that estimates the line "
                             "at the Shake Shack located at Madison Square Park.  The "
                             "service is based on a loosely coupled microservice architecture "
@@ -39,5 +34,9 @@ def lambda_handler(event, context):
                             "Elastic Container Service (ECS) and Simple Notification System (SNS).")
             outbound_message['body'] = text_message
             publish_message(outbound_message, SMS_TOPIC_ARN)
-
-
+        else:
+            publish_message(outbound_message, SCRAPE_TOPIC_ARN)
+            text_message = ("Hello from DeepShack! We are calculating your "
+                            "time-to-burger. Hang tight...")
+            outbound_message['body'] = text_message
+            publish_message(outbound_message, SMS_TOPIC_ARN)
