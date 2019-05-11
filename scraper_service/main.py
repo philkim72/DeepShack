@@ -3,7 +3,6 @@ import logging
 from datetime import datetime
 from time import sleep
 
-from pytz import timezone
 from botocore.vendored import requests
 import boto3
 from fake_useragent import UserAgent
@@ -48,7 +47,7 @@ def scrape_handler(event, context):
     event_message = event['Records'][0]['Sns']['Message']
     phone_number = event_message['phone_number'].split("B")[-1]
 
-    timestamp = datetime.now(timezone('EST'))
+    timestamp = datetime.now()
     timestamp_str = timestamp.strftime('%Y_%m_%d_%H%M')
     filename = f'shackcam/{timestamp_str}.jpg'
 
@@ -71,9 +70,9 @@ def scrape_handler(event, context):
             # Publish message to downstream services
             publish_message(outbound_message, PREDICT_TOPIC_ARN)
             outbound_message['body'] = (
-                "Good news! DeepShack is on your way."
-                "Image was scraped from ShackCam and saved on AWS S3."
-                "predict_trigger_service on Lambda will be called next"
+                "Good news! DeepShack is on your way. "
+                "Image was scraped from ShackCam and saved on AWS S3. "
+                "predict_trigger_service on Lambda will be called next."
             )
             publish_message(outbound_message, SMS_TOPIC_ARN)
 
@@ -84,7 +83,7 @@ def scrape_handler(event, context):
 
         # Publish failed message to downstream services
         outbound_message['body'] = (
-                "Bad news:( Image was not successfully scraped from ShackCam."
-                "No Shake Shack for you today."
+                "Bad news :( Image was not successfully scraped from "
+                "ShackCam. No Shake Shack for you today."
         )
         publish_message(outbound_message, SMS_TOPIC_ARN)
