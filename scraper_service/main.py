@@ -71,9 +71,9 @@ def scrape_handler(event, context):
             # Publish message to downstream services
             publish_message(outbound_message, PREDICT_TOPIC_ARN)
             outbound_message['body'] = (
-                "Good news! DeepShack is on your way. "
-                "Image was scraped from ShackCam and saved on AWS S3. "
-                "predict_trigger_service on Lambda will be called next."
+                "Good news! DeepShack is on the way. "
+                "ShackCam image is scraped and saved on AWS S3. "
+                "Predict Trigger Service will be called next. "
             )
             publish_message(outbound_message, SMS_TOPIC_ARN)
             fail_flag = False
@@ -84,7 +84,7 @@ def scrape_handler(event, context):
     if fail_flag:
         # Publish failed message to downstream services
         outbound_message['body'] = (
-                "Bad news, the image was not successfully scraped from "
-                "ShackCam. Try texting again."
+                "Bad news, the ShackCam image was unavailable. "
+                "Try texting again."
         )
         publish_message(outbound_message, SMS_TOPIC_ARN)

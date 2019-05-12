@@ -28,9 +28,9 @@ def predict_trigger_handler(event, context):
 
     outbound_message = {'filename': filename, 'phone_number': phone_number}
     outbound_message['body'] = (
-                "We are now spinning up an ECS instance. "
-                "This machine will count the people in the Shack line. "
-                "This could take a few minutes."
+                "We are now spinning up an ECS instance with our model "
+                "which will count the people in the Shack line. "
+                "This could take a minute or two. "
     )
     publish_message(outbound_message, SMS_TOPIC_ARN)
 
