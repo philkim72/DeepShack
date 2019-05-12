@@ -11,7 +11,7 @@ URL = 'http://cdn.shakeshack.com/camera.jpg'
 PREDICT_TOPIC_ARN = 'arn:aws:sns:us-east-1:245636212397:triggerPredict'
 SMS_TOPIC_ARN = 'arn:aws:sns:us-east-1:245636212397:triggerSMS'
 S3_BUCKET = 'deepshack'
-
+S3_FILENAME = 'https://s3.amazonaws.com/deepshack/'
 logging.getLogger().setLevel(logging.INFO)
 
 
@@ -44,8 +44,8 @@ def scrape_handler(event, context):
     """
 
     # Receive message from upstream service
-    event_message = event['Records'][0]['Sns']['Message']
-    phone_number = event_message['phone_number'].split("B")[-1]
+    event_message = json.loads(event['Records'][0]['Sns']['Message'])
+    phone_number = event_message['phone_number']
 
     timestamp = datetime.now()
     timestamp_str = timestamp.strftime('%Y_%m_%d_%H%M')
@@ -55,7 +55,8 @@ def scrape_handler(event, context):
 
     # Try 3 times to scrape an image
     fail_count = 0
-    for _ in range(0, 2):
+    fail_flag = True
+    while fail_count < 2 and fail_flag:
         try:
             # Scrape
             r = make_request()
@@ -75,15 +76,15 @@ def scrape_handler(event, context):
                 "predict_trigger_service on Lambda will be called next."
             )
             publish_message(outbound_message, SMS_TOPIC_ARN)
-
+            fail_flag = False
         except ValueError as err:
             logging.info(err)
             fail_count += 1
             sleep(1)
-
+    if fail_flag:
         # Publish failed message to downstream services
         outbound_message['body'] = (
-                "Bad news :( Image was not successfully scraped from "
-                "ShackCam. No Shake Shack for you today."
+                "Bad news, the image was not successfully scraped from "
+                "ShackCam. Try texting again."
         )
         publish_message(outbound_message, SMS_TOPIC_ARN)
