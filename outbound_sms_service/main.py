@@ -2,6 +2,7 @@ import base64
 import logging
 import os
 from urllib import parse, request
+import json
 
 TWILIO_SMS_URL = 'https://api.twilio.com/2010-04-01/Accounts/{}/Messages.json'
 TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID')
@@ -13,7 +14,8 @@ def lambda_handler(event, context):
     # Insert Twilio Account SID into the REST API URL
     populated_url = TWILIO_SMS_URL.format(TWILIO_ACCOUNT_SID)
 
-    event_message = event['Records'][0]['Sns']['Message']
+    event_message = json.loads(event['Records'][0]['Sns']['Message'])
+    print (event_message)
     post_params = {'To': event_message['phone_number'],
                    'From': os.environ.get('from_number'),
                    'Body': event_message['body']}

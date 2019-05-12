@@ -95,7 +95,9 @@ def run():
     body = ("There are {} people in line right now. "
             "Get the Double Shack!!").format(str(prediction))
 
-    message = {'filename': filename, 'phone_number': phone_number, 'body': body}
+    message = {'filename': filename,
+               'phone_number': phone_number,
+               'body': body}
     publish_message(message, TOPIC_ARN)
 
 
