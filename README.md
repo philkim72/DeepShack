@@ -13,6 +13,8 @@ Shake Shack is lunchtime (and dinnertime) favorite for people in Manhattan.  The
 <p align="center">
   <img src="images/DeepShackTeam.jpg" width="600">
 </p>
+V
+<p align="center">The DeepShack Team waves to the ShackCam at Madison Square Park!<p align="center">
 
 So to ease the decision making process on whether to visit Shake Shack at any given time of the day, our service aims to notify subscribers of the number of people in line at the Madison Square Park location though Deep Learning.  **Using SMS, a user will send a text message to the DeepShack microservice which will then notify the user with its best estimate of number of people waiting in line.**
 
